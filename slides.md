@@ -45,9 +45,9 @@ Click pacing: say each line, click, let it land.
 
 ---
 
-# Prediction 1
+# What would `Date` do?
 
-## What does this print?
+## Predict the output.
 
 ```ts
 console.log(new Date("09:00").getHours());
@@ -111,11 +111,11 @@ Click through each — gives you a beat per type.
 
 ---
 
-# Prediction 2
+# Now with zones
 
-## 15:00 UTC. What's the local time?
+## 15:00 UTC — shout the local times.
 
-```ts {1|3|4|all}
+```ts {1|3|4}
 const instant = Temporal.Instant.from("2025-05-28T15:00:00Z");
 
 console.log(instant.toZonedDateTimeISO("Europe/Zurich").toString());
@@ -149,21 +149,21 @@ layout: center
 const local = Temporal.PlainDateTime.from("2025-10-26T02:30:00");
 ```
 
-<div class="flex gap-12 justify-center mt-8 text-2xl">
-  <div v-click class="opacity-90">0 times?</div>
-  <div v-click class="opacity-90">1 time?</div>
-  <div v-click class="opacity-90">2 times?</div>
+<div class="flex gap-12 justify-center mt-8 text-2xl opacity-90">
+  <div>0 times?</div>
+  <div>1 time?</div>
+  <div>2 times?</div>
 </div>
 
-<!-- Forced binary hand-raise. Reveal each option as you say it (three clicks).
-Count the room. Let them commit before the reveal.
+<!-- Forced binary hand-raise. All three options visible at once — audience chooses.
+"Hands up for 0. Hands up for 1. Hands up for 2." Count the room.
 If nobody answers: "Tough crowd. OK, I'll pick for you." -->
 
 ---
 
 # Same wall clock. Two real moments.
 
-```ts {3-4|6-7|all}
+```ts {3-4|6-7}
 const local = Temporal.PlainDateTime.from("2025-10-26T02:30:00");
 
 const earlier = local.toZonedDateTime("Europe/Zurich", { disambiguation: "earlier" });
@@ -193,7 +193,7 @@ Bonus if time permits:
 
 </div>
 
-<div class="mt-3 text-sm opacity-70">One hour apart. <code>Date</code> would silently pick one.</div>
+<div class="mt-3 text-base">One hour apart. <code>Date</code> would silently pick one.</div>
 
 </v-click>
 
@@ -216,6 +216,7 @@ This was six months ago. Your codebase probably has this bug.
 - "What happened?" → **<code>Temporal.Instant</code>**
 - "What did the human mean?" → **<code>Temporal.Plain&#42;</code>**
 - "What time is it there?" → **<code>Temporal.ZonedDateTime</code>**
+- "How long?" → **<code>Temporal.Duration</code>**
 
 </v-clicks>
 
@@ -272,11 +273,13 @@ Stdlib replaces most of what date-fns/dayjs offered — their reason to exist wa
 layout: center
 ---
 
-# JavaScript didn't need a better date library.
+# JavaScript didn't need a better <span v-mark.red="{ at: 1, type: 'strike-through', strokeWidth: 3 }">date library</span>.
 
-## It needed better <span v-mark.red.underline="{ at: 1, strokeWidth: 3 }">time types</span>.
+## It needed better <span v-mark.red.underline="{ at: 2, strokeWidth: 3 }">time types</span>.
 
-<!-- Final line. Click once — marker draws under "time types". Pause. Thanks. Advance to Q&A. -->
+<!-- Final line. Two clicks:
+  1. Strikethrough "date library" — say the first sentence.
+  2. Underline "time types" — say the second sentence. Pause. Advance to Q&A. -->
 
 ---
 layout: center
