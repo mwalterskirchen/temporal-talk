@@ -11,6 +11,7 @@
     "@js-temporal/polyfill": "^0.5.1",
     "@slidev/cli": "^52.14.2",
     "@slidev/theme-apple-basic": "^0.25.1",
+    "@slidev/theme-default": "^0.25.0",
     "temporal-polyfill": "^0.3.2",
     "vue": "^3.5.29"
   },

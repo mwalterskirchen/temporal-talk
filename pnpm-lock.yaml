@@ -17,6 +17,9 @@ importers:
       '@slidev/theme-apple-basic':
         specifier: ^0.25.1
         version: 0.25.1
+      '@slidev/theme-default':
+        specifier: ^0.25.0
+        version: 0.25.0
       temporal-polyfill:
         specifier: ^0.3.2
         version: 0.3.2
@@ -803,6 +806,10 @@ packages:
 
   '@slidev/theme-apple-basic@0.25.1':
     resolution: {integrity: sha512-saA5yYui+jTT13tP+QJKnWeM8sK0IA1iln2E3sWAJsfKdQHUD3fw8+AlUHLUH6yc8NPq3ewtZcwWx49a/iF8Tg==}
+    engines: {node: '>=14.0.0', slidev: '>=v0.47.0'}
+
+  '@slidev/theme-default@0.25.0':
+    resolution: {integrity: sha512-iWvthH1Ny+i6gTwRnEeeU+EiqsHC56UdEO45bqLSNmymRAOWkKUJ/M0o7iahLzHSXsiPu71B7C715WxqjXk2hw==}
     engines: {node: '>=14.0.0', slidev: '>=v0.47.0'}
 
   '@slidev/types@0.47.5':
@@ -3724,6 +3731,12 @@ snapshots:
       roughjs: 4.6.6
 
   '@slidev/theme-apple-basic@0.25.1':
+    dependencies:
+      '@slidev/types': 0.47.5
+      codemirror-theme-vars: 0.1.2
+      prism-theme-vars: 0.2.5
+
+  '@slidev/theme-default@0.25.0':
     dependencies:
       '@slidev/types': 0.47.5
       codemirror-theme-vars: 0.1.2
