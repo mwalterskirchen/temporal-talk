@@ -287,6 +287,17 @@ layout: center
 
 # Questions?
 
+<div class="flex gap-16 justify-center mt-10">
+  <div class="flex flex-col items-center gap-2">
+    <img src="/qr-slides.svg" class="w-40 h-40 bg-white p-2 rounded" />
+    <div class="text-sm opacity-80">slides</div>
+  </div>
+  <div class="flex flex-col items-center gap-2">
+    <img src="/qr-repo.svg" class="w-40 h-40 bg-white p-2 rounded" />
+    <div class="text-sm opacity-80">repo</div>
+  </div>
+</div>
+
 <div class="abs-b w-full text-center mb-6 text-sm opacity-70">
   github.com/mwalterskirchen · linkedin.com/in/mwalterskirchen
 </div>
