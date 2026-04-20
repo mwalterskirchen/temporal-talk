@@ -15,11 +15,14 @@ Make time handling feel less cursed
   </div>
 </div>
 
-<!-- ZurichJS lightning talk. Target: 7 min talk + 3 min Q&A. Senior-dev audience.
+<!-- 7 min talk + 3 min Q&A. Senior devs.
 
-Spoken intro (5s before the hook):
-"I'm Maximilian, Senior Engineer at inplan — workforce management for hospitals.
-Which means I spend a lot of time thinking about time. Here's one story." -->
+Say:
+- I'm Maximilian, Senior Eng @ inplan
+- Workforce mgmt for hospitals → lots of time
+- Here's one story
+
+Do: breathe. Slow start. -->
 
 ---
 layout: center
@@ -39,9 +42,15 @@ No date. Just hours on a clock.
 
 </div>
 
-<!-- Story beat (30s). Shift scheduling at work. Every workaround was a lie.
-Click pacing: say each line, click, let it land.
-"Today: the API that would have saved me three weeks." -->
+<!-- 30s story beat.
+
+Say:
+- Shift scheduling at work
+- Needed just 09:00–17:00, no date
+- Every Date workaround was a lie
+- Today: the API that saves you 3 weeks
+
+Do: click each line, let it land. -->
 
 ---
 
@@ -53,8 +62,13 @@ Click pacing: say each line, click, let it land.
 console.log(new Date("09:00").getHours());
 ```
 
-<!-- Forced binary: "A number between 0 and 23? Or NaN? Hands up."
-Click to reveal: NaN — Invalid Date, Date cannot parse a bare time. -->
+<!-- Say:
+- Predict the output
+- Number 0–23? Or NaN? Hands up
+
+Do: count hands. Then click.
+
+Land: NaN — Date can't parse a bare time. -->
 
 <v-click>
 
@@ -74,9 +88,13 @@ Output: <code class="!text-red-400 !bg-red-500/10">NaN</code> — `Date` cannot 
 console.log(Temporal.PlainTime.from("09:00").hour);
 ```
 
-<!-- Expected output: 9
-Point to land: the type exists because the concept exists.
-"Date has one type pretending to be six. Temporal gives each concept its own type." -->
+<!-- Say:
+- Same question, Temporal
+- Output: 9
+- Date = one type pretending to be six
+- Temporal = a type per concept
+
+Do: click reveal. Short beat, move on. -->
 
 <v-click>
 
@@ -105,9 +123,19 @@ Output: <code class="!text-green-400 !bg-green-500/10">9</code>
 
 </v-clicks>
 
-<!-- 45s. Do not dwell. The types will reappear in the next two demos.
-Click through each — gives you a beat per type.
-"The type carries intent. That is the real upgrade." -->
+<!-- 45s. Do NOT dwell — types reappear in demos.
+
+Say (one beat each):
+- Instant → exact moment
+- PlainDate → calendar date
+- PlainTime → clock time
+- PlainDateTime → wall clock, no zone
+- ZonedDateTime → wall clock + named zone
+- Duration → length, not a point
+
+Land: "The type carries intent. That's the upgrade."
+
+Do: click per bullet. -->
 
 ---
 
@@ -122,11 +150,17 @@ console.log(instant.toZonedDateTimeISO("Europe/Zurich").toString());
 console.log(instant.toZonedDateTimeISO("America/New_York").toString());
 ```
 
-<!-- Ask the room: "Shout it out — Zurich first. Now New York."
-Expected output:
-  2025-05-28T17:00:00+02:00[Europe/Zurich]
-  2025-05-28T11:00:00-04:00[America/New_York]
-Warm-up prediction — they'll get it right. Contrast: Date gave a wrong answer, Temporal gave the expected one. -->
+<!-- Say:
+- 15:00 UTC — shout the local times
+- Zurich first... New York
+
+Do: ask room, wait for shout, click.
+
+Output:
+  Zurich → 17:00+02:00
+  NY     → 11:00-04:00
+
+Land: "Date gave you NaN. Temporal gave the expected answer." -->
 
 <v-click>
 
@@ -155,9 +189,14 @@ const local = Temporal.PlainDateTime.from("2025-10-26T02:30:00");
   <div>2 times?</div>
 </div>
 
-<!-- Forced binary hand-raise. All three options visible at once — audience chooses.
-"Hands up for 0. Hands up for 1. Hands up for 2." Count the room.
-If nobody answers: "Tough crowd. OK, I'll pick for you." -->
+<!-- Say:
+- Oct 26, Zurich, clocks fall back at 3 AM
+- So 02:30 happens... how often?
+- Hands up: 0 / 1 / 2
+
+Do: count each. Pause between.
+
+If silent: "Tough crowd. I'll pick for you." -->
 
 ---
 
@@ -173,16 +212,20 @@ console.log(earlier.toInstant().toString());
 console.log(later.toInstant().toString());
 ```
 
-<!-- Expected output:
-  2025-10-26T00:30:00Z  (CEST, UTC+2, before the fallback)
-  2025-10-26T01:30:00Z  (CET,  UTC+1, after the fallback)
-Punchline: "Same wall clock. Two real moments, one hour apart.
-Date would silently pick one and never tell you. Temporal makes you pick."
-Local-angle bonus: "This was seven months ago. Your codebase probably has this bug."
+<!-- Say:
+- Answer: 2 times
+- Same wall clock → two real moments, 1h apart
+- Date silently picks one, never tells you
+- Temporal makes you pick
+- This was 6 months ago — your codebase has this bug
 
-Bonus if time permits:
-  local.toZonedDateTime("Europe/Zurich", { disambiguation: "reject" })
-  → throws RangeError. "Or tell it to refuse to guess." -->
+Do: click 1 = earlier/later lines. Click 2 = bug line. Pause.
+
+Output:
+  earlier → 00:30:00Z (CEST)
+  later   → 01:30:00Z (CET)
+
+If time: mention disambiguation: "reject" → throws. "Or refuse to guess." -->
 
 <v-click>
 
@@ -220,7 +263,15 @@ This was six months ago. Your codebase probably has this bug.
 
 </v-clicks>
 
-<!-- The takeaway. Click through. One question per beat. Then move on. -->
+<!-- Say (one beat per click):
+- What happened? → Instant
+- What did the human mean? → Plain*
+- What time is it there? → ZonedDateTime
+- How long? → Duration
+
+Land: "Ask the question. The type follows."
+
+Do: click, say, pause. Move on. -->
 
 ---
 
@@ -264,9 +315,17 @@ Not there yet? <code>temporal-polyfill</code> — drop-in, same API as native.
 
 </v-click>
 
-<!-- 20s. Answers "can I ship this?" + preempts "but what about Prisma?"
-Polyfill today, swap for native later. Convert at library boundaries for now.
-Stdlib replaces most of what date-fns/dayjs offered — their reason to exist was Date's gaps. -->
+<!-- 20s. Answers "can I ship this?"
+
+Say:
+- Stage 4 → API locked
+- Chrome + FF native, Safari flag, Node 26, TS 6
+- Not yet? → temporal-polyfill, same API
+- Caveat: ecosystem still Date (Prisma, Zod, date-fns)
+- Convert at boundaries
+- Stdlib is rich → may not need a date lib
+
+Do: click per bullet. Don't rush caveat. -->
 
 
 ---
@@ -277,9 +336,11 @@ layout: center
 
 ## It needed better <span v-mark.red.underline="{ at: 2, strokeWidth: 3 }">time types</span>.
 
-<!-- Final line. Two clicks:
-  1. Strikethrough "date library" — say the first sentence.
-  2. Underline "time types" — say the second sentence. Pause. Advance to Q&A. -->
+<!-- Say:
+- JS didn't need a better date library (click 1 = strike)
+- It needed better time types (click 2 = underline)
+
+Do: pause after second line before Q&A. Let it land. -->
 
 ---
 layout: center
@@ -302,19 +363,22 @@ layout: center
   github.com/mwalterskirchen · linkedin.com/in/mwalterskirchen
 </div>
 
-<!-- Pre-written answers for the three most likely questions:
+<!-- Say: "Questions? And grab the slides / repo."
 
-Q: Why not just UTC everywhere?
-  UTC works for past events. Breaks for future scheduled events.
-  If DST rules change, "9am Zurich" must stay 9am — 07:00Z cannot.
-  ZonedDateTime keeps wall-clock intent + derived instant.
+Do: breathe. Scan room. Wait.
 
-Q: When should I keep using Date?
-  Interop only. Convert at library boundaries.
-  No new-code case where Date beats the right Temporal type.
+If asked "Why not just UTC everywhere?":
+- UTC fine for past events
+- Breaks for future scheduled events
+- If DST changes, "9am Zurich" must stay 9am — 07:00Z can't
+- ZonedDateTime keeps intent + derived instant
 
-Q: DB — Instant or local time?
-  Past "when did this happen" → Instant (UTC timestamp).
-  Future "when should this happen in a place" → local time + named zone.
-  Test: if DST rules change tomorrow, must the stored value change?
-  Yes → local. No → instant. -->
+If asked "When keep using Date?":
+- Interop only, convert at boundaries
+- No new-code case where Date wins
+
+If asked "DB: Instant or local?":
+- Past "when did it happen" → Instant
+- Future "when in a place" → local + named zone
+- Test: if DST rules change tomorrow, must stored value change?
+  Yes → local. No → Instant. -->
