@@ -41,3 +41,15 @@ Before walking on stage: extended display (not mirrored), fullscreen projector w
 pnpm build      # static SPA → dist/
 pnpm export     # PDF (requires playwright-chromium)
 ```
+
+## Run code examples
+
+Snippets from the slides live in `examples/` and can be run standalone. The
+runner preloads `temporal-polyfill` and exposes `Temporal` on `globalThis`, so
+the files look exactly like they do on the slides (no import needed).
+
+```bash
+pnpm example    # interactive menu of everything under examples/
+```
+
+Add more files under `examples/` — anything using `Temporal` as a global works.

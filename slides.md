@@ -9,16 +9,15 @@ layout: center
 Make time handling feel less cursed
 
 <div class="abs-b w-full text-center mb-6 text-sm opacity-70">
-  Maximilian Walterskirchen · Senior Software Engineer @ inplan
+  Maximilian Walterskirchen · Senior Software Engineer @ Staffgenius
   <div class="text-xs mt-1 opacity-80">
     github.com/mwalterskirchen · linkedin.com/in/mwalterskirchen
   </div>
 </div>
 
-<!-- 7 min talk + 3 min Q&A. Senior devs.
-
+<!-- 
 Say:
-- I'm Maximilian, Senior Eng @ inplan
+- I'm Maximilian, Senior Eng @ Staffgenius
 - Today: why Date is broken, and the API that fixes it
 
 Do: breathe. Slow start. -->
@@ -29,39 +28,38 @@ layout: center
 
 <h1 class="text-center">One type. Six jobs.</h1>
 
-<div class="flex justify-center mt-4">
+<div v-click="3" class="flex justify-center mt-4">
   <img src="/multitasking.gif" class="h-44 rounded" />
 </div>
 
-<div v-click class="mt-6 text-xl opacity-90 text-center">
+<div v-click="1" class="mt-6 text-xl opacity-90 text-center">
 
 `Date` handles instants, dates, times, wall clocks, zones, and durations.
 
 </div>
 
-<div v-click class="mt-4 text-xl opacity-90 text-center">
+<div v-click="2" class="mt-4 text-xl opacity-90 text-center">
 
 All as the same type. That's where it breaks.
 
 </div>
 
-<!-- 20s. Problem framing, no story.
+<!-- 
 
 Say:
 - JavaScript's Date is one type doing six jobs
 - (click) instants, dates, times, wall clocks, zones, durations
 - (click) all the same type — that's where it breaks
+- (click) GIF lands the punchline
 - Next slide: watch it break
 
-Do: click, click, move on. Don't dwell. -->
+Do: click, click, click, move on. Don't dwell. -->
 
 ---
 
 # What would `Date` do?
 
-```ts
-console.log(new Date("09:00").getHours());
-```
+<<< @/examples/01-date-nan.ts ts
 
 <v-click>
 
@@ -84,9 +82,7 @@ Do: straight reveal, no hands-up. Keep pace. -->
 
 # Same question. Temporal.
 
-```ts
-console.log(Temporal.PlainTime.from("09:00").hour);
-```
+<<< @/examples/02-plain-time.ts ts
 
 <!-- Say:
 - Same question, Temporal
@@ -137,14 +133,14 @@ Output: <code class="!text-green-400 !bg-green-500/10">9</code>
 
 <div>
 
-- <code>Temporal.PlainDateTime</code> — wall-clock date + time, no zone
+- <code>Temporal.PlainDateTime</code> — date + time, no zone
   <div class="ml-6 text-sm opacity-60">"meet at 3pm on the 5th" — zone implied by context</div>
 
 </div>
 
 <div>
 
-- <code>Temporal.ZonedDateTime</code> — wall clock pinned to a named zone
+- <code>Temporal.ZonedDateTime</code> — date + time pinned to a named zone
   <div class="ml-6 text-sm opacity-60">"3pm on the 5th, Europe/Zurich" — DST-aware</div>
 
 </div>
@@ -176,14 +172,9 @@ Do: click per bullet. Resist the urge to rush — this is the load-bearing slide
 
 # Now with zones
 
-## 15:00 UTC. What's the local time in Zurich and New York?
+## What's the local time in Zurich and New York?
 
-```ts {1|3|4}
-const instant = Temporal.Instant.from("2025-05-28T15:00:00Z");
-
-console.log(instant.toZonedDateTimeISO("Europe/Zurich").toString());
-console.log(instant.toZonedDateTimeISO("America/New_York").toString());
-```
+<<< @/examples/03-zones.ts ts {1|3|4}
 
 <!-- Say:
 - 15:00 UTC. Zurich? New York?
@@ -192,6 +183,9 @@ console.log(instant.toZonedDateTimeISO("America/New_York").toString());
 Output:
   Zurich → 17:00+02:00
   NY     → 11:00-04:00
+
+Click 2: Date asymmetry. Format any zone via Intl, but compute only UTC or local.
+Construct/arithmetic in a named zone = roll your own offsets = DST bugs.
 
 Land: "Date gave you NaN. Temporal gave the expected answer." -->
 
@@ -204,6 +198,14 @@ Land: "Date gave you NaN. Temporal gave the expected answer." -->
 
 </v-click>
 
+<v-click>
+
+<div class="mt-6 text-base opacity-80">
+<code>Date</code> can <em>format</em> in any zone (via <code>Intl</code>) — but only <em>computes</em> in UTC or system-local. One-way door.
+</div>
+
+</v-click>
+
 ---
 layout: center
 ---
@@ -212,9 +214,7 @@ layout: center
 
 ## Clocks fall back at 3 AM. So 02:30 happens...
 
-```ts
-const local = Temporal.PlainDateTime.from("2025-10-26T02:30:00");
-```
+<<< @/examples/04-dst-parse.ts#parse ts
 
 <div class="flex gap-12 justify-center mt-8 text-2xl opacity-90">
   <div>0 times?</div>
@@ -235,15 +235,7 @@ If silent: "Tough crowd. I'll pick for you." -->
 
 # Same wall clock. Two real moments.
 
-```ts {3-4|6-7}
-const local = Temporal.PlainDateTime.from("2025-10-26T02:30:00");
-
-const earlier = local.toZonedDateTime("Europe/Zurich", { disambiguation: "earlier" });
-const later   = local.toZonedDateTime("Europe/Zurich", { disambiguation: "later"   });
-
-console.log(earlier.toInstant().toString());
-console.log(later.toInstant().toString());
-```
+<<< @/examples/05-dst-disambiguate.ts ts {3-4|6-7|9}
 
 <!-- Say:
 - Answer: 2 times
@@ -252,13 +244,14 @@ console.log(later.toInstant().toString());
 - Temporal makes you pick
 - This was 6 months ago — your codebase has this bug
 
-Do: click 1 = earlier/later lines. Click 2 = bug line. Pause.
+Do: click 1 = earlier/later. Click 2 = outputs. Click 3 = reject ("or refuse to guess").
 
 Output:
   earlier → 00:30:00Z (CEST)
   later   → 01:30:00Z (CET)
 
-If time: mention disambiguation: "reject" → throws. "Or refuse to guess." -->
+If asked which Date picks: earlier in V8/SpiderMonkey (pre-transition offset, CEST).
+Spec leaves it implementation-defined — unspecified behavior. -->
 
 <v-click>
 
@@ -280,6 +273,42 @@ This was six months ago. Your codebase probably has this bug.
 </div>
 
 </v-click>
+
+---
+
+# And now: compute across the gap
+
+## "9am tomorrow in Zurich" — even across DST
+
+<<< @/examples/06-dst-arithmetic.ts ts {1-2|4|6-7}
+
+<v-click>
+
+<div class="mt-4 text-base opacity-85">
+With <code>Date</code>: <code>+ 24h</code> would land at <strong>08:00</strong>. Wall clock drifted. You'd re-derive it by hand — and ambiguity comes back on the next DST transition.
+</div>
+
+</v-click>
+
+<v-click>
+
+<div class="mt-3 text-base">
+Temporal separates <em>calendar units</em> (days, months) from <em>exact units</em> (hours, seconds). The zone decides which one "a day" means.
+</div>
+
+</v-click>
+
+<!-- Say:
+- Zone-aware arithmetic. The thing Date can't do.
+- (click) "9am in Zurich, plus one day"
+- (click) Still 9am wall clock. Offset changed — DST fell back.
+- (click) And the day was 25 hours long. Temporal tells you that.
+- (click) With Date, +24h drifts off the wall clock every DST boundary.
+- (click) Calendar units vs exact units — the zone picks.
+
+Land: "Date can format any zone. Temporal can *think* in any zone."
+
+Do: slow on the offset change. That's the tell. -->
 
 ---
 
